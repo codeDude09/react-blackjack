@@ -89,18 +89,17 @@ function App() {
   //   </script>
 
   const getValue = (card) => {
-    // console.log("cards", card);
-
     const data = card.split('-');
-    const value = data[0];
+    const cardValue = data[0];
+    const regex = /^[A|J|Q|K]$/g;
 
-    if (Number.isNaN(value)) {
-      if (value === 'A') {
+    if (regex.test(cardValue)) {
+      if (cardValue === 'A') {
         return 11;
       }
       return 10;
     }
-    return parseInt(value, 10);
+    return parseInt(cardValue, 10);
   };
 
   const checkAce = (card) => {
