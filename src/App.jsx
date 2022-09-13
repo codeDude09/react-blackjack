@@ -125,9 +125,6 @@ function App() {
     dealerSum = reduceAce(dealerSum, dealerAceCount);
     yourSum = reduceAce(yourSum, yourAceCount);
     const newSum = reduceAce(mySum, myAceCount);
-
-    console.log('', { dealerSum, yourSum });
-
     // canHit = false;
     setCanHit(false);
     document.getElementById('hidden').src = `../cards/${hidden}.png`;
