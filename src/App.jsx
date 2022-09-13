@@ -126,6 +126,8 @@ function App() {
     yourSum = reduceAce(yourSum, yourAceCount);
     const newSum = reduceAce(mySum, myAceCount);
 
+    console.log('', { dealerSum, yourSum });
+
     // canHit = false;
     setCanHit(false);
     document.getElementById('hidden').src = `../cards/${hidden}.png`;
@@ -451,7 +453,12 @@ function App() {
             <button type="button" id="hit" className="hit" disabled={!canHit || disabled}>
               Hit
             </button>
-            <button type="button" onClick={doubleDown} id="dd" disabled={!gameStarted} className="dd">
+            <button
+              type="button"
+              onClick={doubleDown}
+              id="dd"
+              disabled={!gameStarted}
+              className="dd">
               Double Down
             </button>
             <button type="button" onClick={split} id="split" className="split">
@@ -465,7 +472,11 @@ function App() {
           <p id="results" />
           {deal ? (
             <div>
-              <button type="button" className="deal" id="deal" onClick={() => window.location.reload()}>
+              <button
+                type="button"
+                className="deal"
+                id="deal"
+                onClick={() => window.location.reload()}>
                 Deal
               </button>
             </div>
@@ -475,12 +486,15 @@ function App() {
           {/* <input value="RESTART GAME" onclick="history.go(0)" type="button" /> */}
         </div>
         {!gameStarted ? (
-          <button type="button" className="deal" id="deal" onClick={startGame} disabled={gameStarted}>
+          <button
+            type="button"
+            className="deal"
+            id="deal"
+            onClick={startGame}
+            disabled={gameStarted}>
             Start Game
           </button>
-        ) : (
-          <></>
-        )}
+        ) : null}
       </div>
     </div>
   );
