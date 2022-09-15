@@ -4,7 +4,7 @@ import { injectStyle } from 'react-toastify/dist/inject-style';
 import './App.css';
 import TagManager from 'react-gtm-module';
 import MetaData from './components/Meta/MetaData';
-import Card from './components/Card';
+import PlayerCards from './components/PlayerCards';
 import reducer from './reducer/reducer';
 import initialState from './reducer/initialState';
 
@@ -19,7 +19,7 @@ if (typeof window !== 'undefined') {
   injectStyle();
 }
 
-function App() {
+const App = () => {
   const [canHit, setCanHit] = useState(true);
   const [deal, setDeal] = useState(false);
   const [gameStarted, setGameStarted] = useState(false);
@@ -30,7 +30,7 @@ function App() {
   const dealerCards = useRef(null);
   const yourCards = useRef(null);
 
-  const { tenClub } = state;
+  const { tenClub, twoClub } = state;
 
   // var canHit = true;
   let yourSum = 0;
@@ -427,7 +427,7 @@ function App() {
 
   return (
     <div>
-      <Card card={tenClub} />
+      <PlayerCards cards={[tenClub, twoClub]} playerName="Dealer" />
       <MetaData title="How to Win at Cards" />
       <h1 className="blackjack" id="blackjack">
         How to Win at Blackjack
@@ -501,6 +501,6 @@ function App() {
       </div>
     </div>
   );
-}
+};
 
 export default App;
