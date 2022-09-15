@@ -1,9 +1,12 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useReducer, useRef, useState } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
 import { injectStyle } from 'react-toastify/dist/inject-style';
 import './App.css';
 import TagManager from 'react-gtm-module';
 import MetaData from './components/Meta/MetaData';
+import Card from './components/Card';
+import reducer from './reducer/reducer';
+import initialState from './reducer/initialState';
 
 const tagManagerArgs = {
   gtmId: 'G-R84ZFX4D61'
@@ -21,10 +24,13 @@ function App() {
   const [deal, setDeal] = useState(false);
   const [gameStarted, setGameStarted] = useState(false);
   const [disabled, setDisabled] = useState(false);
+  const [state] = useReducer(reducer, initialState);
 
   let dealerSum = 0;
   const dealerCards = useRef(null);
   const yourCards = useRef(null);
+
+  const { tenClub } = state;
 
   // var canHit = true;
   let yourSum = 0;
@@ -421,6 +427,7 @@ function App() {
 
   return (
     <div>
+      <Card card={tenClub} />
       <MetaData title="How to Win at Cards" />
       <h1 className="blackjack" id="blackjack">
         How to Win at Blackjack
