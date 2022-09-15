@@ -21,7 +21,7 @@
   ],
   "rules": {
     "prettier/prettier": [
-      2,
+      1,
       {
         "semi": true,
         "tabWidth": 2,
