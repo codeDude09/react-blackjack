@@ -5,6 +5,7 @@ import './App.css';
 import TagManager from 'react-gtm-module';
 import MetaData from './components/Meta/MetaData';
 import PlayerCards from './components/PlayerCards';
+import PlayerButtons from './components/PlayerButtons';
 import reducer from './reducer/reducer';
 import initialState from './reducer/initialState';
 
@@ -426,8 +427,10 @@ const App = () => {
   };
 
   return (
-    <div>
+    <div className="mainContainer">
       <PlayerCards cards={[tenClub, twoClub]} playerName="Dealer" />
+      <PlayerCards cards={[tenClub, twoClub]} playerName="You" />
+      <PlayerButtons />
       <MetaData title="How to Win at Cards" />
       <h1 className="blackjack" id="blackjack">
         How to Win at Blackjack
