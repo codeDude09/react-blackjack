@@ -3,15 +3,17 @@ import PropTypes from 'prop-types';
 import Card from '../Card';
 import './style.css';
 
-const PlayerCards = ({ cards, playerName, score }) => {
+const PlayerCards = ({ cards, playerName, score, showCards }) => {
   return (
     <div className="playerContainer">
       <h2 className="playerName">{`${playerName}: ${score}`}</h2>
-      <div>
-        {cards.map((card) => (
-          <Card key={card.id} card={card} />
-        ))}
-      </div>
+      {showCards && (
+        <div>
+          {cards.map((card) => (
+            <Card key={card.id} card={card} />
+          ))}
+        </div>
+      )}
     </div>
   );
 };
@@ -24,7 +26,8 @@ PlayerCards.propTypes = {
     })
   ).isRequired,
   playerName: PropTypes.string.isRequired,
-  score: PropTypes.number
+  score: PropTypes.number,
+  showCards: PropTypes.bool.isRequired
 };
 
 PlayerCards.defaultProps = {

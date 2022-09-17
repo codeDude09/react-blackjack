@@ -17,7 +17,7 @@ const PlayerButtons = ({ gameStarted }) => {
       <button className="button" type="button">
         Stay
       </button>
-      {gameStarted && (
+      {!gameStarted && (
         <button className="button" type="button">
           Start Game
         </button>

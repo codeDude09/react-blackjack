@@ -428,7 +428,7 @@ const App = () => {
 
   return (
     <div className="mainContainer">
-      <PlayerCards cards={[tenClub, twoClub]} playerName="Dealer" />
+      <PlayerCards cards={[tenClub, twoClub]} playerName="Dealer" showCards />
       <PlayerCards cards={[tenClub, twoClub]} playerName="You" />
       <PlayerButtons />
       <MetaData title="How to Win at Cards" />
