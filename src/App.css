@@ -7,6 +7,13 @@ body {
   background-image: url("./images/bj-bg.jpg");
 }
 
+.mainContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
 .dealer-cards img {
   height: 175px;
   width: 125px;
