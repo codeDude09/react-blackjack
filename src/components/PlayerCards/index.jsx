@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import Card from '../Card';
 import './style.css';
 
-const PlayerCards = ({ cards, playerName, score, showCards }) => {
+const PlayerCards = ({ cards, score, playerName, showCards }) => {
   return (
     <div className="playerContainer">
       <h2 className="playerName">{`${playerName}: ${score}`}</h2>
@@ -22,16 +22,13 @@ PlayerCards.propTypes = {
   cards: PropTypes.arrayOf(
     PropTypes.shape({
       image: PropTypes.string,
-      url: PropTypes.string
+      url: PropTypes.string,
+      status: PropTypes.string
     })
   ).isRequired,
+  score: PropTypes.number.isRequired,
   playerName: PropTypes.string.isRequired,
-  score: PropTypes.number,
   showCards: PropTypes.bool.isRequired
-};
-
-PlayerCards.defaultProps = {
-  score: 0
 };
 
 export default PlayerCards;

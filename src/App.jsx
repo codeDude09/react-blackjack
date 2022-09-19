@@ -1,4 +1,4 @@
-import React, { useEffect, useReducer } from 'react';
+import React, { useEffect, useReducer, useState } from 'react';
 // import { ToastContainer, toast } from 'react-toastify';
 import { injectStyle } from 'react-toastify/dist/inject-style';
 import './App.css';
@@ -21,8 +21,10 @@ if (typeof window !== 'undefined') {
 }
 
 const App = () => {
-  const [state, dispatch] = useReducer(reducer, initialState);
-  const { userGame, dealerGame, gameStarted } = state;
+  const [store, dispatch] = useReducer(reducer, initialState);
+  const { userGame, dealerGame, gameStarted } = store;
+  const [userScore, setUserScore] = useState(0);
+  const [dealerScore, setDealerScore] = useState(0);
 
   const startGame = () => {
     dispatch({ type: types.startGame });
@@ -36,14 +38,24 @@ const App = () => {
     }
   }, [gameStarted]);
 
+  useEffect(() => {
+    const newScore = dealerGame.reduce((acc, card) => acc + card.value, 0);
+    setDealerScore(newScore);
+  }, [dealerGame]);
+
+  useEffect(() => {
+    const newScore = userGame.reduce((acc, card) => acc + card.value, 0);
+    setUserScore(newScore);
+  }, [userGame]);
+
   return (
     <div className="mainContainer">
       <MetaData title="How to Win at Cards" />
       <h1 className="blackjack" id="blackjack">
         How to Win at Blackjack
       </h1>
-      <PlayerCards cards={dealerGame} playerName="Dealer" showCards />
-      <PlayerCards cards={userGame} playerName="You" showCards={gameStarted} />
+      <PlayerCards cards={dealerGame} playerName="Dealer" showCards score={dealerScore} />
+      <PlayerCards cards={userGame} playerName="You" showCards={gameStarted} score={userScore} />
       <PlayerButtons startGame={startGame} gameStarted={gameStarted} />
     </div>
   );

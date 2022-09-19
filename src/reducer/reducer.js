@@ -3,7 +3,6 @@ import cards from './cards';
 
 const reducer = (state, action) => {
   let newState;
-  let cardToDeal;
   switch (action.type) {
     case types.startGame:
       newState = { ...state, gameStarted: true };
@@ -21,15 +20,18 @@ const reducer = (state, action) => {
       };
       break;
     case types.dealGame:
-      newState = { ...state };
-      cardToDeal = { ...newState.deck.pop() };
-      newState.userGame.push({ ...cardToDeal, status: 'turnUp' });
-      cardToDeal = newState.deck.pop();
-      newState.dealerGame.push({ ...cardToDeal, status: 'turnUp' });
-      cardToDeal = newState.deck.pop();
-      newState.userGame.push({ ...cardToDeal, status: 'turnUp' });
-      cardToDeal = newState.deck.pop();
-      newState.dealerGame.push({ ...cardToDeal });
+      newState = {
+        ...state,
+        userGame: [
+          { ...[...state.deck][state.deck.length - 1], status: 'turnUp' },
+          { ...[...state.deck][state.deck.length - 3], status: 'turnUp' }
+        ],
+        dealerGame: [
+          { ...[...state.deck][state.deck.length - 2], status: 'turnUp' },
+          [...state.deck][state.deck.length - 4]
+        ],
+        deck: [...state.deck].slice(0, state.deck.length - 4)
+      };
       break;
     case types.userScoreIncrease:
       newState = { ...state, userScore: state.userScore + action.payload };
