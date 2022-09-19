@@ -36,17 +36,29 @@ const reducer = (state, action) => {
         deck: [...state.deck].slice(0, state.deck.length - 4)
       };
       break;
-    case types.userScoreIncrease:
-      newState = { ...state, userScore: state.userScore + action.payload };
-      break;
-    case types.dealerScoreIncrease:
-      newState = { ...state, dealerScore: state.dealerScore + action.payload };
-      break;
     case types.hit:
       newState = {
         ...state,
         userGame: [
           ...state.userGame,
+          { ...[...state.deck][state.deck.length - 1], status: 'turnUp' }
+        ],
+        deck: [...state.deck].slice(0, -1)
+      };
+      break;
+    case types.dealerOpensCard:
+      newState = {
+        ...state,
+        dealerGame: state.dealerGame.map((card) => {
+          return { ...card, status: 'turnUp' };
+        })
+      };
+      break;
+    case types.dealerTakesCard:
+      newState = {
+        ...state,
+        dealerGame: [
+          ...state.dealerGame,
           { ...[...state.deck][state.deck.length - 1], status: 'turnUp' }
         ],
         deck: [...state.deck].slice(0, -1)

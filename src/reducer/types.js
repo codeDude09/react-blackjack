@@ -5,8 +5,8 @@ const types = {
   shuffleDeck: 'shuffleDeck',
   dealGame: 'dealGame',
   hit: 'hit',
-  userScoreIncrease: 'userScoreIncrease',
-  dealerScoreIncrease: 'dealerScoreIncrease'
+  dealerOpensCard: 'dealerOpensCard',
+  dealerTakesCard: 'dealerTakesCard'
 };
 
 export default types;

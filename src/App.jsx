@@ -35,6 +35,23 @@ const App = () => {
     dispatch({ type: types.hit });
   };
 
+  const dealerOpensHand = () => {
+    dispatch({ type: types.dealerOpensCard });
+  };
+
+  const stay = async () => {
+    dealerOpensHand();
+    setGameStayed(true);
+  };
+
+  const getNewScore = (hand) => {
+    return hand.reduce((acc, card) => acc + card.value, 0);
+  };
+
+  const dealerTakesCard = () => {
+    dispatch({ type: types.dealerTakesCard });
+  };
+
   useEffect(() => {
     if (gameStarted) {
       dispatch({ type: types.fillDeck });
@@ -44,21 +61,25 @@ const App = () => {
   }, [gameStarted]);
 
   useEffect(() => {
-    const newScore = dealerGame.reduce((acc, card) => acc + card.value, 0);
-    setDealerScore(newScore);
+    setDealerScore(getNewScore(dealerGame));
   }, [dealerGame]);
 
   useEffect(() => {
-    const newScore = userGame.reduce((acc, card) => acc + card.value, 0);
-    setUserScore(newScore);
+    setUserScore(getNewScore(userGame));
   }, [userGame]);
 
   useEffect(() => {
     if (userScore > 21) {
-      setGameStayed(true);
+      stay();
       dispatch({ type: types.endGame });
     }
   }, [userScore]);
+
+  useEffect(() => {
+    if (gameStayed && dealerScore < 17) {
+      dealerTakesCard();
+    }
+  }, [gameStayed, dealerScore]);
 
   return (
     <div className="mainContainer">
@@ -71,6 +92,7 @@ const App = () => {
         playerName="Dealer"
         showCards={gameStarted || gameStayed}
         score={dealerScore}
+        showScore={gameStayed}
       />
       <PlayerCards
         cards={userGame}
@@ -85,6 +107,7 @@ const App = () => {
         gameStayed={gameStayed}
         showScore={gameStayed}
         hit={hit}
+        stay={stay}
       />
     </div>
   );
