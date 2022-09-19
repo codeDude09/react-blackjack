@@ -54,7 +54,12 @@ const App = () => {
       <h1 className="blackjack" id="blackjack">
         How to Win at Blackjack
       </h1>
-      <PlayerCards cards={dealerGame} playerName="Dealer" showCards score={dealerScore} />
+      <PlayerCards
+        cards={dealerGame}
+        playerName="Dealer"
+        showCards={gameStarted}
+        score={dealerScore}
+      />
       <PlayerCards cards={userGame} playerName="You" showCards={gameStarted} score={userScore} />
       <PlayerButtons startGame={startGame} gameStarted={gameStarted} />
     </div>
