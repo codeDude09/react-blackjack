@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import './style.css';
 
-const PlayerButtons = ({ gameStarted }) => {
+const PlayerButtons = ({ gameStarted, startGame }) => {
   return (
     <div className="buttonContainer">
       <button className="button" type="button">
@@ -18,7 +18,7 @@ const PlayerButtons = ({ gameStarted }) => {
         Stay
       </button>
       {!gameStarted && (
-        <button className="button" type="button">
+        <button className="button" type="button" onClick={startGame}>
           Start Game
         </button>
       )}
@@ -27,7 +27,8 @@ const PlayerButtons = ({ gameStarted }) => {
 };
 
 PlayerButtons.propTypes = {
-  gameStarted: PropTypes.bool.isRequired
+  gameStarted: PropTypes.bool.isRequired,
+  startGame: PropTypes.func.isRequired
 };
 
 export default PlayerButtons;
