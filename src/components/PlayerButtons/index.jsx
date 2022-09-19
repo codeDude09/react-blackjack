@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import './style.css';
 
-const PlayerButtons = ({ gameStarted, startGame, hit }) => {
+const PlayerButtons = ({ gameStarted, gameStayed, startGame, hit }) => {
   return (
     <div className="buttonContainer">
       <button className="button" type="button" onClick={hit}>
@@ -17,9 +17,14 @@ const PlayerButtons = ({ gameStarted, startGame, hit }) => {
       <button className="button" type="button">
         Stay
       </button>
-      {!gameStarted && (
+      {!gameStarted && !gameStayed && (
         <button className="button" type="button" onClick={startGame}>
           Start Game
+        </button>
+      )}
+      {!gameStarted && gameStayed && (
+        <button className="button" type="button" onClick={startGame}>
+          Deal!
         </button>
       )}
     </div>
@@ -28,6 +33,7 @@ const PlayerButtons = ({ gameStarted, startGame, hit }) => {
 
 PlayerButtons.propTypes = {
   gameStarted: PropTypes.bool.isRequired,
+  gameStayed: PropTypes.bool.isRequired,
   startGame: PropTypes.func.isRequired,
   hit: PropTypes.func.isRequired
 };

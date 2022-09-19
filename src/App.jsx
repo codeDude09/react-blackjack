@@ -25,15 +25,15 @@ const App = () => {
   const { userGame, dealerGame, gameStarted } = store;
   const [userScore, setUserScore] = useState(0);
   const [dealerScore, setDealerScore] = useState(0);
-  const [gameStayed] = useState(false);
+  const [gameStayed, setGameStayed] = useState(false);
 
   const startGame = () => {
     dispatch({ type: types.startGame });
   };
 
   const hit = () => {
-    dispatch({type: types.hit});
-  }
+    dispatch({ type: types.hit });
+  };
 
   useEffect(() => {
     if (gameStarted) {
@@ -53,6 +53,13 @@ const App = () => {
     setUserScore(newScore);
   }, [userGame]);
 
+  useEffect(() => {
+    if (userScore > 21) {
+      setGameStayed(true);
+      dispatch({ type: types.endGame });
+    }
+  }, [userScore]);
+
   return (
     <div className="mainContainer">
       <MetaData title="How to Win at Cards" />
@@ -62,17 +69,23 @@ const App = () => {
       <PlayerCards
         cards={dealerGame}
         playerName="Dealer"
-        showCards={gameStarted}
+        showCards={gameStarted || gameStayed}
         score={dealerScore}
       />
       <PlayerCards
         cards={userGame}
         playerName="You"
-        showCards={gameStarted}
+        showCards={gameStarted || gameStayed}
         score={userScore}
         showScore={gameStayed}
       />
-      <PlayerButtons startGame={startGame} gameStarted={gameStarted} showScore={gameStayed} hit={hit} />
+      <PlayerButtons
+        startGame={startGame}
+        gameStarted={gameStarted}
+        gameStayed={gameStayed}
+        showScore={gameStayed}
+        hit={hit}
+      />
     </div>
   );
 };

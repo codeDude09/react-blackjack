@@ -7,6 +7,9 @@ const reducer = (state, action) => {
     case types.startGame:
       newState = { ...state, gameStarted: true };
       break;
+    case types.endGame:
+      newState = { ...state, gameStarted: false };
+      break;
     case types.fillDeck:
       newState = { ...state, deck: [...cards] };
       break;

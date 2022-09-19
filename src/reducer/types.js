@@ -1,5 +1,6 @@
 const types = {
   startGame: 'startGame',
+  endGame: 'endGame',
   fillDeck: 'fillDeck',
   shuffleDeck: 'shuffleDeck',
   dealGame: 'dealGame',
