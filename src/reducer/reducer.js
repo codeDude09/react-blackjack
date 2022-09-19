@@ -39,6 +39,16 @@ const reducer = (state, action) => {
     case types.dealerScoreIncrease:
       newState = { ...state, dealerScore: state.dealerScore + action.payload };
       break;
+    case types.hit:
+      newState = {
+        ...state,
+        userGame: [
+          ...state.userGame,
+          { ...[...state.deck][state.deck.length - 1], status: 'turnUp' }
+        ],
+        deck: [...state.deck].slice(0, -1)
+      };
+      break;
     default:
       throw new Error();
   }

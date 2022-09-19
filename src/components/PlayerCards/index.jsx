@@ -3,10 +3,10 @@ import PropTypes from 'prop-types';
 import Card from '../Card';
 import './style.css';
 
-const PlayerCards = ({ cards, score, playerName, showCards }) => {
+const PlayerCards = ({ cards, score, playerName, showCards, showScore }) => {
   return (
     <div className="playerContainer">
-      <h2 className="playerName">{`${playerName}: ${score}`}</h2>
+      <h2 className="playerName">{`${playerName}: ${showScore ? score : ''}`}</h2>
       {showCards && (
         <div>
           {cards.map((card) => (
@@ -28,7 +28,8 @@ PlayerCards.propTypes = {
   ).isRequired,
   score: PropTypes.number.isRequired,
   playerName: PropTypes.string.isRequired,
-  showCards: PropTypes.bool.isRequired
+  showCards: PropTypes.bool.isRequired,
+  showScore: PropTypes.bool.isRequired
 };
 
 export default PlayerCards;

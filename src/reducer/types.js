@@ -3,6 +3,7 @@ const types = {
   fillDeck: 'fillDeck',
   shuffleDeck: 'shuffleDeck',
   dealGame: 'dealGame',
+  hit: 'hit',
   userScoreIncrease: 'userScoreIncrease',
   dealerScoreIncrease: 'dealerScoreIncrease'
 };
