@@ -1,5 +1,6 @@
 import types from './types';
 import cards from './cards';
+import initialState from './initialState';
 
 const reducer = (state, action) => {
   let newState;
@@ -9,6 +10,9 @@ const reducer = (state, action) => {
       break;
     case types.endGame:
       newState = { ...state, gameStarted: false };
+      break;
+    case types.reset:
+      newState = { ...initialState };
       break;
     case types.fillDeck:
       newState = { ...state, deck: [...cards] };

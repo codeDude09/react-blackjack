@@ -31,6 +31,13 @@ const App = () => {
     dispatch({ type: types.startGame });
   };
 
+  const resetGame = () => {
+    dispatch({ type: types.reset });
+    setUserScore(0);
+    setDealerScore(0);
+    setGameStayed(false);
+  };
+
   const hit = () => {
     dispatch({ type: types.hit });
   };
@@ -40,9 +47,9 @@ const App = () => {
   };
 
   const stay = async () => {
-    dealerOpensHand();
     setGameStayed(true);
     dispatch({ type: types.endGame });
+    dealerOpensHand();
   };
 
   const getNewScore = (hand) => {
@@ -62,12 +69,18 @@ const App = () => {
   }, [gameStarted]);
 
   useEffect(() => {
-    setDealerScore(getNewScore(dealerGame));
-  }, [dealerGame]);
+    if (gameStarted) {
+      const newScore = getNewScore(dealerGame);
+      setDealerScore(newScore);
+    }
+  }, [dealerGame, gameStarted]);
 
   useEffect(() => {
-    setUserScore(getNewScore(userGame));
-  }, [userGame]);
+    if (gameStarted) {
+      const newScore = getNewScore(userGame);
+      setUserScore(newScore);
+    }
+  }, [userGame, gameStarted]);
 
   useEffect(() => {
     if (userScore > 21) {
@@ -106,8 +119,10 @@ const App = () => {
         gameStarted={gameStarted}
         gameStayed={gameStayed}
         showScore={gameStayed}
+        disabled={!gameStarted || gameStayed}
         hit={hit}
         stay={stay}
+        reset={resetGame}
       />
     </div>
   );

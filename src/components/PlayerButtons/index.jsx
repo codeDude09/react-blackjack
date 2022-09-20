@@ -2,19 +2,19 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import './style.css';
 
-const PlayerButtons = ({ gameStarted, gameStayed, startGame, hit, stay }) => {
+const PlayerButtons = ({ gameStarted, gameStayed, startGame, hit, stay, reset, disabled }) => {
   return (
     <div className="buttonContainer">
-      <button className="button" type="button" onClick={hit}>
+      <button disabled={disabled} className="button" type="button" onClick={hit}>
         Hit
       </button>
-      <button className="button" type="button">
+      <button disabled={disabled} className="button" type="button">
         Double Down
       </button>
-      <button className="button" type="button">
+      <button disabled={disabled} className="button" type="button">
         Split
       </button>
-      <button className="button" type="button" onClick={stay}>
+      <button disabled={disabled} className="button" type="button" onClick={stay}>
         Stay
       </button>
       {!gameStarted && !gameStayed && (
@@ -23,7 +23,7 @@ const PlayerButtons = ({ gameStarted, gameStayed, startGame, hit, stay }) => {
         </button>
       )}
       {!gameStarted && gameStayed && (
-        <button className="button" type="button" onClick={startGame}>
+        <button className="button" type="button" onClick={reset}>
           Deal!
         </button>
       )}
@@ -36,7 +36,9 @@ PlayerButtons.propTypes = {
   gameStayed: PropTypes.bool.isRequired,
   startGame: PropTypes.func.isRequired,
   hit: PropTypes.func.isRequired,
-  stay: PropTypes.func.isRequired
+  stay: PropTypes.func.isRequired,
+  reset: PropTypes.func.isRequired,
+  disabled: PropTypes.bool.isRequired
 };
 
 export default PlayerButtons;

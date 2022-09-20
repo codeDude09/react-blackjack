@@ -7,7 +7,7 @@ const PlayerCards = ({ cards, score, playerName, showCards, showScore }) => {
   return (
     <div className="playerContainer">
       <h2 className="playerName">{`${playerName}: ${showScore ? score : ''}`}</h2>
-      {showCards && (
+      {showCards && cards.length > 0 && (
         <div>
           {cards.map((card) => (
             <Card key={card.id} card={card} />
