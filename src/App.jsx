@@ -45,10 +45,26 @@ const App = () => {
     dispatch({ type: types.dealerOpensCard });
   };
 
-  const stay = async () => {
+  const finishGame = () => {
     dispatch({ type: types.setGameStayed, payload: true });
-    dispatch({ type: types.endGame });
     dealerOpensHand();
+    dispatch({ type: types.endGame });
+  };
+
+  const stay = () => {
+    let message = 'you win';
+    if (userScore > 21) {
+      message = 'you lose';
+      alert(message);
+      return;
+    }
+    finishGame();
+    if (21 - userScore < 21 - dealerScore) {
+      message = 'you lose';
+      alert(message);
+      return;
+    }
+    alert(message);
   };
 
   const getNewScore = (hand) => {
