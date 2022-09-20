@@ -11,6 +11,9 @@ const reducer = (state, action) => {
     case types.endGame:
       newState = { ...state, gameStarted: false };
       break;
+    case types.setGameStayed:
+      newState = { ...state, gameStayed: action.payload };
+      break;
     case types.reset:
       newState = { ...initialState };
       break;

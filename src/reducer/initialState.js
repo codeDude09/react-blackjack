@@ -2,7 +2,8 @@ const initialState = {
   deck: [],
   userGame: [],
   dealerGame: [],
-  gameStarted: false
+  gameStarted: false,
+  gameStayed: false
 };
 
 export default initialState;

@@ -22,10 +22,9 @@ if (typeof window !== 'undefined') {
 
 const App = () => {
   const [store, dispatch] = useReducer(reducer, initialState);
-  const { userGame, dealerGame, gameStarted } = store;
+  const { userGame, dealerGame, gameStarted, gameStayed } = store;
   const [userScore, setUserScore] = useState(0);
   const [dealerScore, setDealerScore] = useState(0);
-  const [gameStayed, setGameStayed] = useState(false);
 
   const startGame = () => {
     dispatch({ type: types.startGame });
@@ -35,7 +34,7 @@ const App = () => {
     dispatch({ type: types.reset });
     setUserScore(0);
     setDealerScore(0);
-    setGameStayed(false);
+    dispatch({ type: types.setGameStayed, payload: false });
   };
 
   const hit = () => {
@@ -47,7 +46,7 @@ const App = () => {
   };
 
   const stay = async () => {
-    setGameStayed(true);
+    dispatch({ type: types.setGameStayed, payload: true });
     dispatch({ type: types.endGame });
     dealerOpensHand();
   };
