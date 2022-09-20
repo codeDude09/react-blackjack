@@ -66,7 +66,6 @@ const App = () => {
     let values = hand.map((card) => card.value);
     if (splitted) {
       values = new Set(values);
-      console.log('putamadre', values);
     }
     let acc = 0;
     values.forEach((value) => {
