@@ -8,7 +8,7 @@ const PlayerButtons = ({ gameStarted, gameStayed, startGame, hit, stay, reset, d
       <button disabled={disabled} className="button" type="button" onClick={hit}>
         Hit
       </button>
-      <button disabled={disabled} className="button" type="button">
+      <button disabled={disabled} className="button" type="button" onClick={stay}>
         Double Down
       </button>
       <button disabled={disabled} className="button" type="button">
