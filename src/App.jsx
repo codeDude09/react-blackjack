@@ -42,6 +42,7 @@ const App = () => {
   const stay = async () => {
     dealerOpensHand();
     setGameStayed(true);
+    dispatch({ type: types.endGame });
   };
 
   const getNewScore = (hand) => {
@@ -71,7 +72,6 @@ const App = () => {
   useEffect(() => {
     if (userScore > 21) {
       stay();
-      dispatch({ type: types.endGame });
     }
   }, [userScore]);
 
