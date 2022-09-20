@@ -22,7 +22,7 @@ const PlayerButtons = ({ gameStarted, gameStayed, startGame, hit, stay, reset, d
           Start Game
         </button>
       )}
-      {!gameStarted && gameStayed && (
+      {gameStayed && (
         <button className="button" type="button" onClick={reset}>
           Deal!
         </button>

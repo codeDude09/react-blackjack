@@ -43,26 +43,9 @@ const App = () => {
     dispatch({ type: types.dealerOpensCard });
   };
 
-  const finishGame = () => {
-    dispatch({ type: types.setGameStayed, payload: true });
-    dealerOpensHand();
-    dispatch({ type: types.endGame });
-  };
-
   const stay = () => {
-    let message = 'you win';
-    if (userScore > 21) {
-      message = 'you lose';
-      alert(message);
-      return;
-    }
-    finishGame();
-    if (21 - userScore < 21 - dealerScore) {
-      message = 'you lose';
-      alert(message);
-      return;
-    }
-    alert(message);
+    dealerOpensHand();
+    dispatch({ type: types.setGameStayed, payload: true });
   };
 
   const getNewScore = (hand) => {
@@ -97,14 +80,25 @@ const App = () => {
 
   useEffect(() => {
     if (userScore > 21) {
-      stay();
+      alert('you lose');
+      dispatch({ type: types.setGameStayed, payload: true });
+      dispatch({ type: types.endGame });
     }
   }, [userScore]);
 
   useEffect(() => {
-    if (gameStayed && dealerScore < 17) {
+    if (!gameStarted || !gameStayed) return;
+    if (gameStarted && gameStayed && dealerScore < 17) {
       dealerTakesCard();
     }
+    let message = 'you lose';
+    if (dealerScore > 21) {
+      message = 'you win';
+    } else if (userScore > dealerScore) {
+      message = 'you win ';
+    }
+    alert(message);
+    dispatch({ type: types.endGame });
   }, [gameStayed, dealerScore]);
 
   return (
@@ -118,7 +112,7 @@ const App = () => {
         playerName="Dealer"
         showCards={gameStarted || gameStayed}
         score={dealerScore}
-        showScore={gameStayed}
+        showScore={gameStarted && gameStayed}
       />
       <PlayerCards
         cards={userGame}
