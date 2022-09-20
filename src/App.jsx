@@ -45,8 +45,12 @@ const App = () => {
   };
 
   const activateSplitted = () => {
-    dispatch({ type: types.setSplitted, payload: true });
-    toast.info('You just splitted your hand');
+    if (allowSplit) {
+      dispatch({ type: types.setSplitted, payload: true });
+      toast.info('You just splitted your hand');
+    } else {
+      toast.info('You can not split, you need two cards with the same value');
+    }
   };
 
   const hit = () => {
@@ -131,7 +135,8 @@ const App = () => {
   useEffect(() => {
     if (gameStarted) {
       const values = userGame.map((card) => card.value);
-      const allowed = new Set(values).size !== values.lenght;
+      const diffValues = new Set(values);
+      const allowed = diffValues.size !== values.length;
       dispatch({ type: types.setAllowSplit, payload: allowed });
     }
   }, [userGame, gameStarted]);
@@ -165,7 +170,6 @@ const App = () => {
         hit={hit}
         stay={stay}
         reset={resetGame}
-        allowSplit={allowSplit}
         activateSplitted={activateSplitted}
       />
       <ToastContainer limit={1} autoClose={2000} />
