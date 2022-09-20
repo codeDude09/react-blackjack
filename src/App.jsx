@@ -22,7 +22,16 @@ if (typeof window !== 'undefined') {
 
 const App = () => {
   const [store, dispatch] = useReducer(reducer, initialState);
-  const { userGame, dealerGame, gameStarted, gameStayed, userScore, dealerScore } = store;
+  const {
+    userGame,
+    dealerGame,
+    gameStarted,
+    gameStayed,
+    userScore,
+    dealerScore,
+    allowSplit,
+    splitted
+  } = store;
 
   const startGame = () => {
     dispatch({ type: types.startGame });
@@ -33,6 +42,10 @@ const App = () => {
     dispatch({ type: types.setUserScore, payload: 0 });
     dispatch({ type: types.setDealerScore, payload: 0 });
     dispatch({ type: types.setGameStayed, payload: false });
+  };
+
+  const activateSplitted = () => {
+    dispatch({ type: types.setSplitted, action: true });
   };
 
   const hit = () => {
@@ -49,7 +62,11 @@ const App = () => {
   };
 
   const getNewScore = (hand) => {
-    return hand.reduce((acc, card) => acc + card.value, 0);
+    let values = hand.map((card) => card.value);
+    if (splitted) {
+      values = new Set(values);
+    }
+    return values.reduce((acc, value) => acc + value, 0);
   };
 
   const dealerTakesCard = () => {
@@ -101,6 +118,14 @@ const App = () => {
     dispatch({ type: types.endGame });
   }, [gameStayed, dealerScore]);
 
+  useEffect(() => {
+    if (gameStarted) {
+      const values = userGame.map((card) => card.value);
+      const allowed = new Set(values).size !== values.lenght;
+      dispatch({ type: types.setAllowSplit, payload: allowed });
+    }
+  }, [userGame, gameStarted]);
+
   return (
     <div className="mainContainer">
       <MetaData title="How to Win at Cards" />
@@ -130,6 +155,8 @@ const App = () => {
         hit={hit}
         stay={stay}
         reset={resetGame}
+        allowSplit={allowSplit}
+        activateSplitted={activateSplitted}
       />
     </div>
   );

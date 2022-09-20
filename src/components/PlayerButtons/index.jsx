@@ -2,7 +2,17 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import './style.css';
 
-const PlayerButtons = ({ gameStarted, gameStayed, startGame, hit, stay, reset, disabled }) => {
+const PlayerButtons = ({
+  gameStarted,
+  gameStayed,
+  startGame,
+  hit,
+  stay,
+  reset,
+  disabled,
+  allowSplit,
+  activateSplitted
+}) => {
   return (
     <div className="buttonContainer">
       <button disabled={disabled} className="button" type="button" onClick={hit}>
@@ -11,7 +21,11 @@ const PlayerButtons = ({ gameStarted, gameStayed, startGame, hit, stay, reset, d
       <button disabled={disabled} className="button" type="button" onClick={stay}>
         Double Down
       </button>
-      <button disabled={disabled} className="button" type="button">
+      <button
+        disabled={disabled || !allowSplit}
+        className="button"
+        type="button"
+        onClick={activateSplitted}>
         Split
       </button>
       <button disabled={disabled} className="button" type="button" onClick={stay}>
@@ -38,7 +52,9 @@ PlayerButtons.propTypes = {
   hit: PropTypes.func.isRequired,
   stay: PropTypes.func.isRequired,
   reset: PropTypes.func.isRequired,
-  disabled: PropTypes.bool.isRequired
+  disabled: PropTypes.bool.isRequired,
+  allowSplit: PropTypes.bool.isRequired,
+  activateSplitted: PropTypes.bool.isRequired
 };
 
 export default PlayerButtons;
