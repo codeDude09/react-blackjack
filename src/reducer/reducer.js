@@ -53,6 +53,12 @@ const reducer = (state, action) => {
         deck: [...state.deck].slice(0, -1)
       };
       break;
+    case types.setAllowSplit:
+      newState = { ...state, allowSplit: action.payload };
+      break;
+    case types.setSplitted:
+      newState = { ...state, splitted: action.payload };
+      break;
     case types.dealerOpensCard:
       newState = {
         ...state,

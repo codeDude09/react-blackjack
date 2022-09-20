@@ -1,5 +1,5 @@
 import React, { useEffect, useReducer } from 'react';
-// import { ToastContainer, toast } from 'react-toastify';
+import { ToastContainer, toast } from 'react-toastify';
 import { injectStyle } from 'react-toastify/dist/inject-style';
 import './App.css';
 import TagManager from 'react-gtm-module';
@@ -22,7 +22,16 @@ if (typeof window !== 'undefined') {
 
 const App = () => {
   const [store, dispatch] = useReducer(reducer, initialState);
-  const { userGame, dealerGame, gameStarted, gameStayed, userScore, dealerScore } = store;
+  const {
+    userGame,
+    dealerGame,
+    gameStarted,
+    gameStayed,
+    userScore,
+    dealerScore,
+    allowSplit,
+    splitted
+  } = store;
 
   const startGame = () => {
     dispatch({ type: types.startGame });
@@ -33,6 +42,11 @@ const App = () => {
     dispatch({ type: types.setUserScore, payload: 0 });
     dispatch({ type: types.setDealerScore, payload: 0 });
     dispatch({ type: types.setGameStayed, payload: false });
+  };
+
+  const activateSplitted = () => {
+    dispatch({ type: types.setSplitted, payload: true });
+    toast.info('You just splitted your hand');
   };
 
   const hit = () => {
@@ -49,7 +63,16 @@ const App = () => {
   };
 
   const getNewScore = (hand) => {
-    return hand.reduce((acc, card) => acc + card.value, 0);
+    let values = hand.map((card) => card.value);
+    if (splitted) {
+      values = new Set(values);
+      console.log('putamadre', values);
+    }
+    let acc = 0;
+    values.forEach((value) => {
+      acc += value;
+    });
+    return acc;
   };
 
   const dealerTakesCard = () => {
@@ -76,24 +99,24 @@ const App = () => {
       const newScore = getNewScore(userGame);
       dispatch({ type: types.setUserScore, payload: newScore });
     }
-  }, [userGame, gameStarted]);
+  }, [userGame, gameStarted, splitted]);
 
   useEffect(() => {
     if (userScore > 21) {
-      console.log('you lose');
+      toast.info('You Lose');
       dispatch({ type: types.setGameStayed, payload: true });
       dispatch({ type: types.endGame });
     }
   }, [userScore]);
 
   const compareScores = () => {
-    let message = 'you lose';
+    let message = 'You Lose';
     if (dealerScore > 21) {
-      message = 'you win';
+      message = 'You Win';
     } else if (userScore > dealerScore) {
-      message = 'you win ';
+      message = 'You Win';
     }
-    console.log(message);
+    toast.info(message);
   };
 
   useEffect(() => {
@@ -105,6 +128,14 @@ const App = () => {
       dispatch({ type: types.endGame });
     }
   }, [gameStayed, dealerScore]);
+
+  useEffect(() => {
+    if (gameStarted) {
+      const values = userGame.map((card) => card.value);
+      const allowed = new Set(values).size !== values.lenght;
+      dispatch({ type: types.setAllowSplit, payload: allowed });
+    }
+  }, [userGame, gameStarted]);
 
   return (
     <div className="mainContainer">
@@ -135,7 +166,10 @@ const App = () => {
         hit={hit}
         stay={stay}
         reset={resetGame}
+        allowSplit={allowSplit}
+        activateSplitted={activateSplitted}
       />
+      <ToastContainer limit={1} autoClose={2000} />
     </div>
   );
 };
