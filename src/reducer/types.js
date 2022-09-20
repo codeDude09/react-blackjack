@@ -8,7 +8,9 @@ const types = {
   dealGame: 'dealGame',
   hit: 'hit',
   dealerOpensCard: 'dealerOpensCard',
-  dealerTakesCard: 'dealerTakesCard'
+  dealerTakesCard: 'dealerTakesCard',
+  setUserScore: 'setUserScore',
+  setDealerScore: 'setDealerScore'
 };
 
 export default types;

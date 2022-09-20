@@ -1,4 +1,4 @@
-import React, { useEffect, useReducer, useState } from 'react';
+import React, { useEffect, useReducer } from 'react';
 // import { ToastContainer, toast } from 'react-toastify';
 import { injectStyle } from 'react-toastify/dist/inject-style';
 import './App.css';
@@ -22,9 +22,7 @@ if (typeof window !== 'undefined') {
 
 const App = () => {
   const [store, dispatch] = useReducer(reducer, initialState);
-  const { userGame, dealerGame, gameStarted, gameStayed } = store;
-  const [userScore, setUserScore] = useState(0);
-  const [dealerScore, setDealerScore] = useState(0);
+  const { userGame, dealerGame, gameStarted, gameStayed, userScore, dealerScore } = store;
 
   const startGame = () => {
     dispatch({ type: types.startGame });
@@ -32,8 +30,8 @@ const App = () => {
 
   const resetGame = () => {
     dispatch({ type: types.reset });
-    setUserScore(0);
-    setDealerScore(0);
+    dispatch({ type: types.setUserScore, payload: 0 });
+    dispatch({ type: types.setDealerScore, payload: 0 });
     dispatch({ type: types.setGameStayed, payload: false });
   };
 
@@ -86,14 +84,14 @@ const App = () => {
   useEffect(() => {
     if (gameStarted) {
       const newScore = getNewScore(dealerGame);
-      setDealerScore(newScore);
+      dispatch({ type: types.setDealerScore, payload: newScore });
     }
   }, [dealerGame, gameStarted]);
 
   useEffect(() => {
     if (gameStarted) {
       const newScore = getNewScore(userGame);
-      setUserScore(newScore);
+      dispatch({ type: types.setUserScore, payload: newScore });
     }
   }, [userGame, gameStarted]);
 
