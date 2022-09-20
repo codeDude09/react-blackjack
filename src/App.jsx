@@ -86,11 +86,7 @@ const App = () => {
     }
   }, [userScore]);
 
-  useEffect(() => {
-    if (!gameStarted || !gameStayed) return;
-    if (gameStarted && gameStayed && dealerScore < 17) {
-      dealerTakesCard();
-    }
+  const compareScores = () => {
     let message = 'you lose';
     if (dealerScore > 21) {
       message = 'you win';
@@ -98,7 +94,16 @@ const App = () => {
       message = 'you win ';
     }
     console.log(message);
-    dispatch({ type: types.endGame });
+  };
+
+  useEffect(() => {
+    if (!gameStarted || !gameStayed) return;
+    if (gameStarted && gameStayed && dealerScore < 17) {
+      dealerTakesCard();
+    } else {
+      compareScores();
+      dispatch({ type: types.endGame });
+    }
   }, [gameStayed, dealerScore]);
 
   return (
