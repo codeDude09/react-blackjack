@@ -1,5 +1,5 @@
 import React, { useEffect, useReducer } from 'react';
-// import { ToastContainer, toast } from 'react-toastify';
+import { ToastContainer, toast } from 'react-toastify';
 import { injectStyle } from 'react-toastify/dist/inject-style';
 import './App.css';
 import TagManager from 'react-gtm-module';
@@ -97,7 +97,7 @@ const App = () => {
 
   useEffect(() => {
     if (userScore > 21) {
-      console.log('you lose');
+      toast.info('You Lose');
       dispatch({ type: types.setGameStayed, payload: true });
       dispatch({ type: types.endGame });
     }
@@ -108,13 +108,13 @@ const App = () => {
     if (gameStarted && gameStayed && dealerScore < 17) {
       dealerTakesCard();
     }
-    let message = 'you lose';
+    let message = 'You Lose';
     if (dealerScore > 21) {
-      message = 'you win';
+      message = 'You Win';
     } else if (userScore > dealerScore) {
-      message = 'you win ';
+      message = 'You Win';
     }
-    console.log(message);
+    toast.info(message);
     dispatch({ type: types.endGame });
   }, [gameStayed, dealerScore]);
 
@@ -158,6 +158,7 @@ const App = () => {
         allowSplit={allowSplit}
         activateSplitted={activateSplitted}
       />
+      <ToastContainer limit={1} autoClose={2000} />
     </div>
   );
 };
