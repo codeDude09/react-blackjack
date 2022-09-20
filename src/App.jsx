@@ -80,7 +80,7 @@ const App = () => {
 
   useEffect(() => {
     if (userScore > 21) {
-      alert('you lose');
+      console.log('you lose');
       dispatch({ type: types.setGameStayed, payload: true });
       dispatch({ type: types.endGame });
     }
@@ -97,7 +97,7 @@ const App = () => {
     } else if (userScore > dealerScore) {
       message = 'you win ';
     }
-    alert(message);
+    console.log(message);
     dispatch({ type: types.endGame });
   }, [gameStayed, dealerScore]);
 
@@ -112,7 +112,7 @@ const App = () => {
         playerName="Dealer"
         showCards={gameStarted || gameStayed}
         score={dealerScore}
-        showScore={gameStarted && gameStayed}
+        showScore={!!(gameStayed && userScore <= 21)}
       />
       <PlayerCards
         cards={userGame}
