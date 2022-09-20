@@ -45,7 +45,7 @@ const App = () => {
   };
 
   const activateSplitted = () => {
-    dispatch({ type: types.setSplitted, action: true });
+    dispatch({ type: types.setSplitted, payload: true });
   };
 
   const hit = () => {
@@ -65,8 +65,13 @@ const App = () => {
     let values = hand.map((card) => card.value);
     if (splitted) {
       values = new Set(values);
+      console.log('putamadre', values);
     }
-    return values.reduce((acc, value) => acc + value, 0);
+    let acc = 0;
+    values.forEach((value) => {
+      acc += value;
+    });
+    return acc;
   };
 
   const dealerTakesCard = () => {
@@ -93,7 +98,7 @@ const App = () => {
       const newScore = getNewScore(userGame);
       dispatch({ type: types.setUserScore, payload: newScore });
     }
-  }, [userGame, gameStarted]);
+  }, [userGame, gameStarted, splitted]);
 
   useEffect(() => {
     if (userScore > 21) {
