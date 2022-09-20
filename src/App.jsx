@@ -68,7 +68,6 @@ const App = () => {
   };
 
   const calculateScore = () => {
-    console.log({ gameStarted, gameStayed });
     if (!gameStarted || !gameStayed) return;
     if (gameStarted && gameStayed && dealerScore < 17) {
       dealerTakesCard();
