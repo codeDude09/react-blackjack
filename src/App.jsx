@@ -46,6 +46,7 @@ const App = () => {
 
   const activateSplitted = () => {
     dispatch({ type: types.setSplitted, payload: true });
+    toast.info('You just splitted your hand');
   };
 
   const hit = () => {
