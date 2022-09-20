@@ -53,6 +53,31 @@ const App = () => {
     }
   };
 
+  const compareScores = () => {
+    let message = 'You Lose';
+    if (dealerScore > 21) {
+      message = 'You Win';
+    } else if (userScore > dealerScore) {
+      message = 'You Win';
+    }
+    toast.info(message);
+  };
+
+  const dealerTakesCard = () => {
+    dispatch({ type: types.dealerTakesCard });
+  };
+
+  const calculateScore = () => {
+    console.log({ gameStarted, gameStayed });
+    if (!gameStarted || !gameStayed) return;
+    if (gameStarted && gameStayed && dealerScore < 17) {
+      dealerTakesCard();
+    } else {
+      compareScores();
+      dispatch({ type: types.endGame });
+    }
+  };
+
   const hit = () => {
     dispatch({ type: types.hit });
   };
@@ -66,6 +91,12 @@ const App = () => {
     dispatch({ type: types.setGameStayed, payload: true });
   };
 
+  const doubleDown = () => {
+    hit();
+    stay();
+    calculateScore();
+  };
+
   const getNewScore = (hand) => {
     let values = hand.map((card) => card.value);
     if (splitted) {
@@ -76,10 +107,6 @@ const App = () => {
       acc += value;
     });
     return acc;
-  };
-
-  const dealerTakesCard = () => {
-    dispatch({ type: types.dealerTakesCard });
   };
 
   useEffect(() => {
@@ -112,24 +139,8 @@ const App = () => {
     }
   }, [userScore]);
 
-  const compareScores = () => {
-    let message = 'You Lose';
-    if (dealerScore > 21) {
-      message = 'You Win';
-    } else if (userScore > dealerScore) {
-      message = 'You Win';
-    }
-    toast.info(message);
-  };
-
   useEffect(() => {
-    if (!gameStarted || !gameStayed) return;
-    if (gameStarted && gameStayed && dealerScore < 17) {
-      dealerTakesCard();
-    } else {
-      compareScores();
-      dispatch({ type: types.endGame });
-    }
+    calculateScore();
   }, [gameStayed, dealerScore]);
 
   useEffect(() => {
@@ -169,6 +180,7 @@ const App = () => {
         disabled={!gameStarted || gameStayed}
         hit={hit}
         stay={stay}
+        doubleDown={doubleDown}
         reset={resetGame}
         activateSplitted={activateSplitted}
       />
