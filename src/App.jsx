@@ -96,9 +96,9 @@ const App = () => {
     calculateScore();
   };
 
-  const getNewScore = (hand) => {
+  const getNewScore = (hand, player) => {
     let values = hand.map((card) => card.value);
-    if (splitted) {
+    if (splitted && player === 'user') {
       values = new Set(values);
     }
     let acc = 0;
@@ -118,14 +118,14 @@ const App = () => {
 
   useEffect(() => {
     if (gameStarted) {
-      const newScore = getNewScore(dealerGame);
+      const newScore = getNewScore(dealerGame, 'dealer');
       dispatch({ type: types.setDealerScore, payload: newScore });
     }
   }, [dealerGame, gameStarted]);
 
   useEffect(() => {
     if (gameStarted) {
-      const newScore = getNewScore(userGame);
+      const newScore = getNewScore(userGame, 'user');
       dispatch({ type: types.setUserScore, payload: newScore });
     }
   }, [userGame, gameStarted, splitted]);
@@ -169,7 +169,7 @@ const App = () => {
         playerName="You"
         showCards={gameStarted || gameStayed}
         score={userScore}
-        showScore={gameStayed}
+        showScore={gameStarted || gameStayed}
       />
       <PlayerButtons
         startGame={startGame}
