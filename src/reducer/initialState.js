@@ -6,7 +6,8 @@ const initialState = {
   gameStarted: false,
   gameStayed: false,
   userScore: 0,
-  dealerScore: 0
+  dealerScore: 0,
+  isSplitted: false
 };
 
 export default initialState;

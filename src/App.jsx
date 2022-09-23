@@ -22,8 +22,16 @@ if (typeof window !== 'undefined') {
 
 const App = () => {
   const [store, dispatch] = useReducer(reducer, initialState);
-  const { userGame, dealerGame, gameStarted, gameStayed, userScore, dealerScore, userHandValues } =
-    store;
+  const {
+    userGame,
+    dealerGame,
+    gameStarted,
+    gameStayed,
+    userScore,
+    dealerScore,
+    userHandValues,
+    isSplitted
+  } = store;
 
   const startGame = () => {
     dispatch({ type: types.startGame });
@@ -38,11 +46,15 @@ const App = () => {
 
   const split = () => {
     const lastCard = [...userGame].pop();
-    const arr = [...userGame].slice(0, -1);
-    const bool = arr.some((card) => card.value === lastCard.value);
-    if (bool) {
+    const previousHand = [...userGame].slice(0, -1);
+    const isEnableToSplit =
+      previousHand.some((card) => card.value === lastCard.value) && !isSplitted;
+    if (isEnableToSplit) {
       toast.info('You just splitted your hand');
       dispatch({ type: types.setUserHandValues, payload: [...userHandValues].slice(0, -1) });
+      dispatch({ type: types.setIsSplitted, payload: true });
+    } else if (isSplitted) {
+      toast.info('You already splitted');
     } else {
       toast.info('You can not split, you need two cards with the same value');
     }
@@ -74,6 +86,7 @@ const App = () => {
 
   const hit = () => {
     dispatch({ type: types.hit });
+    dispatch({ type: types.setIsSplitted, payload: false });
   };
 
   const dealerOpensHand = () => {

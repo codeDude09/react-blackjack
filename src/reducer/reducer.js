@@ -20,6 +20,9 @@ const reducer = (state, action) => {
     case types.fillDeck:
       newState = { ...state, deck: [...cards] };
       break;
+    case types.setIsSplitted:
+      newState = { ...state, isSplitted: action.payload };
+      break;
     case types.shuffleDeck:
       newState = {
         ...state,
