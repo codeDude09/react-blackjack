@@ -22,16 +22,8 @@ if (typeof window !== 'undefined') {
 
 const App = () => {
   const [store, dispatch] = useReducer(reducer, initialState);
-  const {
-    userGame,
-    dealerGame,
-    gameStarted,
-    gameStayed,
-    userScore,
-    dealerScore,
-    allowSplit,
-    splitted
-  } = store;
+  const { userGame, dealerGame, gameStarted, gameStayed, userScore, dealerScore, userHandValues } =
+    store;
 
   const startGame = () => {
     dispatch({ type: types.startGame });
@@ -44,10 +36,13 @@ const App = () => {
     dispatch({ type: types.setGameStayed, payload: false });
   };
 
-  const activateSplitted = () => {
-    if (allowSplit) {
-      dispatch({ type: types.setSplitted, payload: true });
+  const split = () => {
+    const lastCard = [...userGame].pop();
+    const arr = [...userGame].slice(0, -1);
+    const bool = arr.some((card) => card.value === lastCard.value);
+    if (bool) {
       toast.info('You just splitted your hand');
+      dispatch({ type: types.setUserHandValues, payload: [...userHandValues].slice(0, -1) });
     } else {
       toast.info('You can not split, you need two cards with the same value');
     }
@@ -96,16 +91,8 @@ const App = () => {
     calculateScore();
   };
 
-  const getNewScore = (hand, player) => {
-    let values = hand.map((card) => card.value);
-    if (splitted && player === 'user') {
-      values = new Set(values);
-    }
-    let acc = 0;
-    values.forEach((value) => {
-      acc += value;
-    });
-    return acc;
+  const getNewScore = (hand) => {
+    return hand.reduce((acc, card) => acc + card.value, 0);
   };
 
   useEffect(() => {
@@ -118,17 +105,23 @@ const App = () => {
 
   useEffect(() => {
     if (gameStarted) {
-      const newScore = getNewScore(dealerGame, 'dealer');
+      const newScore = getNewScore(dealerGame);
       dispatch({ type: types.setDealerScore, payload: newScore });
     }
   }, [dealerGame, gameStarted]);
 
   useEffect(() => {
     if (gameStarted) {
-      const newScore = getNewScore(userGame, 'user');
+      const newScore = getNewScore(userHandValues);
       dispatch({ type: types.setUserScore, payload: newScore });
     }
-  }, [userGame, gameStarted, splitted]);
+  }, [gameStarted, userHandValues]);
+
+  useEffect(() => {
+    if (gameStarted && userGame.length === 2) {
+      dispatch({ type: types.setUserHandValues, payload: [...userGame] });
+    }
+  }, [userGame, gameStarted]);
 
   useEffect(() => {
     if (userScore > 21) {
@@ -141,15 +134,6 @@ const App = () => {
   useEffect(() => {
     calculateScore();
   }, [gameStayed, dealerScore]);
-
-  useEffect(() => {
-    if (gameStarted) {
-      const values = userGame.map((card) => card.value);
-      const diffValues = new Set(values);
-      const allowed = diffValues.size !== values.length;
-      dispatch({ type: types.setAllowSplit, payload: allowed });
-    }
-  }, [userGame, gameStarted]);
 
   return (
     <div className="mainContainer">
@@ -181,7 +165,7 @@ const App = () => {
         stay={stay}
         doubleDown={doubleDown}
         reset={resetGame}
-        activateSplitted={activateSplitted}
+        split={split}
       />
       <ToastContainer limit={1} autoClose={2000} />
     </div>

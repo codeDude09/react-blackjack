@@ -50,14 +50,12 @@ const reducer = (state, action) => {
           ...state.userGame,
           { ...[...state.deck][state.deck.length - 1], status: 'turnUp' }
         ],
+        userHandValues: [
+          ...state.userHandValues,
+          { ...[...state.deck][state.deck.length - 1], status: 'turnUp' }
+        ],
         deck: [...state.deck].slice(0, -1)
       };
-      break;
-    case types.setAllowSplit:
-      newState = { ...state, allowSplit: action.payload };
-      break;
-    case types.setSplitted:
-      newState = { ...state, splitted: action.payload };
       break;
     case types.dealerOpensCard:
       newState = {
@@ -84,6 +82,9 @@ const reducer = (state, action) => {
 
     case types.setUserScore:
       newState = { ...state, userScore: action.payload };
+      break;
+    case types.setUserHandValues:
+      newState = { ...state, userHandValues: action.payload };
       break;
     default:
       throw new Error();

@@ -10,7 +10,7 @@ const PlayerButtons = ({
   stay,
   reset,
   disabled,
-  activateSplitted,
+  split,
   doubleDown
 }) => {
   return (
@@ -21,7 +21,7 @@ const PlayerButtons = ({
       <button disabled={disabled} className="button" type="button" onClick={doubleDown}>
         Double Down
       </button>
-      <button disabled={disabled} className="button" type="button" onClick={activateSplitted}>
+      <button disabled={disabled} className="button" type="button" onClick={split}>
         Split
       </button>
       <button disabled={disabled} className="button" type="button" onClick={stay}>
@@ -49,7 +49,7 @@ PlayerButtons.propTypes = {
   stay: PropTypes.func.isRequired,
   reset: PropTypes.func.isRequired,
   disabled: PropTypes.bool.isRequired,
-  activateSplitted: PropTypes.func.isRequired,
+  split: PropTypes.func.isRequired,
   doubleDown: PropTypes.func.isRequired
 };
 

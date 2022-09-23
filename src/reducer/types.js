@@ -11,8 +11,7 @@ const types = {
   dealerTakesCard: 'dealerTakesCard',
   setUserScore: 'setUserScore',
   setDealerScore: 'setDealerScore',
-  setSplitted: 'setSplitted',
-  setAllowSplit: 'setAllowSplit'
+  setUserHandValues: 'setUserHandValues'
 };
 
 export default types;
